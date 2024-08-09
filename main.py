@@ -39,7 +39,7 @@ from flcore.servers.serverprox import FedProx
 from flcore.servers.serverrep import FedRep
 from flcore.servers.serverrod import FedROD
 from flcore.servers.serverscaffold import SCAFFOLD
-from flcore.servers.servercp import FedCP
+from flcore.servers.servercp import Fedatd
 from flcore.trainmodel.alexnet import *
 from flcore.trainmodel.bilstm import *
 from flcore.trainmodel.mobilenet_v2 import *
@@ -306,11 +306,11 @@ def run(args):
             args.model.fc = nn.Identity()
             server = FedPCL(args, i)
 
-        elif args.algorithm == "FedCP":
+        elif args.algorithm == "FedATD":
             args.head = copy.deepcopy(args.model.fc)
             args.model.fc = nn.Identity()
             args.model = LocalModel(args.model, args.head)
-            server = FedCP(args, i)
+            server = Fedatd(args, i)
 
         else:
             raise NotImplementedError
