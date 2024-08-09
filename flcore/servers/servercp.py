@@ -11,7 +11,7 @@ from loguru import logger
 
 
 
-class FedCP(Server):
+class Fedatd(Server):
     def __init__(self, args, times):
         self.device = args.device
         self.dataset = args.dataset
