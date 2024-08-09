@@ -20,7 +20,7 @@ conda env create -f env_cuda_latest.yaml # for Linux
 
 ## Training and Evaluation
 
-All codes corresponding to **FedATD** are stored in `./system`. Just run the following commands.
+All codes corresponding to **FedATD** are stored in `./AFL-ATD`. Just run the following commands.
 
 ```
 pip install -r requtrements.txt
