@@ -26,5 +26,3 @@ All codes corresponding to **FedATD** are stored in `./AFL-ATD`. Just run the fo
 pip install -r requtrements.txt
 run main.py
 ```
-
-**Note**: Due to the dynamics of the *floating-point calculation accuracy* of different GPUs, you may need to set a suitable `threshold` (we set it to 0.01 in our paper by default) for the ALA module to control its convergence level in the start phase. A small `threshold` may cause your system to get *stuck* in the first iteration.
