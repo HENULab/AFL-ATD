@@ -1,7 +1,7 @@
 # System
 
 - `main.py`: configurations of **FedATD**. 
-- `env_linux.yaml`: python environment to run **FedALA** on Linux. 
+- `env_linux.yaml`: python environment to run **FedATD** on Linux. 
 - `./flcore`: 
     - `./clients/clientatd.py`: the code on the client. 
     - `./servers/serveratd.py`: the code on the server. 
@@ -23,7 +23,7 @@ conda env create -f env_cuda_latest.yaml # for Linux
 All codes corresponding to **FedALA** are stored in `./system`. Just run the following commands.
 
 ```
-cd ./system
+pip install -r requtrements.txt
 run mian.py
 ```
 
