@@ -36,15 +36,6 @@ class clientCP(Client):
         self.eta = args.eta
         self.rand_percent = args.rand_percent
         self.layer_idx = args.layer_idx
-        """
-        train_data = read_client_data(self.dataset, self.id, is_train=True)
-        self.ALA = ALA(self.id, self.loss, train_data, self.batch_size,
-                       self.rand_percent, self.layer_idx, self.eta, self.device)
-        """
-
-
-
-
         in_dim = list(args.model.head.parameters())[0].shape[1]
         self.context = torch.rand(1, in_dim).to(self.device)
 
@@ -74,10 +65,6 @@ class clientCP(Client):
     def set_parameters(self, feature_extractor):
         for new_param, old_param in zip(feature_extractor.parameters(), self.model.model.feature_extractor.parameters()):
             old_param.data = new_param.data.clone()
-            
-        for new_param, old_param in zip(feature_extractor.parameters(), self.model.feature_extractor.parameters()):
-            old_param.data = new_param.data.clone()
-
 
     def set_head_g(self, head):
         headw_ps = []
@@ -99,58 +86,12 @@ class clientCP(Client):
 
     def save_con_items(self, items, tag='', item_path=None):
         self.save_item(self.pm_train, 'pm_train' + '_' + tag, item_path)
-        self.save_item(self.pm_test, 'pm_test' + '_' + tag, item_path)
-        for idx, it in enumerate(items):
-            self.save_item(it, 'item_' + str(idx) + '_' + tag, item_path)
+
 
     def generate_upload_head(self):
         for (np, pp), (ng, pg) in zip(self.model.model.head.named_parameters(), self.model.head_g.named_parameters()):
             pg.data = pp * 0.5 + pg * 0.5
-    """
-    def test_metrics(self):
-        testloader = self.load_test_data()
-        self.model.eval()
 
-        test_acc = 0
-        test_num = 0
-        y_prob = []
-        y_true = []
-        self.model.gate.pm_ = []
-        self.model.gate.gm_ = []
-        self.pm_test = []
-        
-        with torch.no_grad():
-            for x, y in testloader:
-                if type(x) == type([]):
-                    x[0] = x[0].to(self.device)
-                else:
-                    x = x.to(self.device)
-                y = y.to(self.device)
-                output = self.model(x, is_rep=False, context=self.context)
-
-                test_acc += (torch.sum(torch.argmax(output, dim=1) == y)).item()
-                test_num += y.shape[0]
-
-                y_prob.append(F.softmax(output).detach().cpu().numpy())
-                nc = self.num_classes
-                if self.num_classes == 2:
-                    nc += 1
-                lb = label_binarize(y.detach().cpu().numpy(), classes=np.arange(nc))
-                if self.num_classes == 2:
-                    lb = lb[:, :2]
-                y_true.append(lb)
-
-        y_prob = np.concatenate(y_prob, axis=0)
-        y_true = np.concatenate(y_true, axis=0)
-
-        auc = metrics.roc_auc_score(y_true, y_prob, average='micro')
-
-        self.pm_test.extend(self.model.gate.pm_)
-        
-        return test_acc, test_num, auc
-        """
-
-                
     def train_cs_model(self):
         trainloader = self.load_train_data()
         self.model.train()
@@ -176,15 +117,6 @@ class clientCP(Client):
         scores = [torch.mean(pm).item() for pm in self.pm_train]
         #print(np.mean(scores), np.std(scores))
         logger.info(f'The number {self.id} client is trained.')
-    """
-    def local_initialization(self, received_global_model):
-        self.ALA.adaptive_local_aggregation(received_global_model, self.model)
-    """
-
-
-
-
-
 
 def MMD(x, y, kernel, device='cpu'):
     """Emprical maximum mean discrepancy. The lower the result

@@ -52,7 +52,7 @@ class Fedatd(Server):
         for i in range(self.num_clients):
             train_data = read_client_data(self.dataset, i, is_train=True)
             test_data = read_client_data(self.dataset, i, is_train=False)
-            client = clientCP(args, 
+            client = clientatd(args,
                             id=i, 
                             train_samples=len(train_data), 
                             test_samples=len(test_data), 
@@ -97,36 +97,6 @@ class Fedatd(Server):
             
         for w, client_model in zip(self.uploaded_weights, self.uploaded_models):
             self.add_parameters(w, client_model)
-    """
-    def test_metrics(self):
-        num_samples = []
-        tot_correct = []
-        tot_auc = []
-        for c in self.clients:
-            ct, ns, auc = c.test_metrics()
-            #print(f'Client {c.id}: Acc: {ct*1.0/ns}, AUC: {auc}')
-            tot_correct.append(ct*1.0)
-            tot_auc.append(auc*ns)
-            num_samples.append(ns)
-
-        ids = [c.id for c in self.clients]
-
-        return ids, num_samples, tot_correct, tot_auc
-
-    def evaluate(self, acc=None):
-        stats = self.test_metrics()
-
-        test_acc = sum(stats[2])*1.0 / sum(stats[1])
-        test_auc = sum(stats[3])*1.0 / sum(stats[1])
-        
-        if acc == None:
-            self.rs_test_acc.append(test_acc)
-        else:
-            acc.append(test_acc)
-
-        print("Averaged Test Accurancy: {:.4f}".format(test_acc))
-        print("Averaged Test AUC: {:.4f}".format(test_auc))
-    """
 
     def train(self):
         for i in range(self.global_rounds+1):
@@ -181,9 +151,6 @@ class Fedatd(Server):
         self.head = copy.deepcopy(self.uploaded_model_gs[0])
         for param in self.head.parameters():
             param.data = torch.zeros_like(param.data)
-            
-        for w, client_model in zip(self.uploaded_weights, self.uploaded_model_gs):
-            self.add_head(w, client_model)
 
         for client in self.selected_clients:
             client.set_head_g(self.head)
