@@ -7,7 +7,7 @@
     - `./servers/serveratd.py`: the code on the server. 
     - `./trainmodel/models.py`: the code for backbones. 
 - `./utils`:
-    - `ALA.py`: the code of our **Adaptive Local Aggregation (ALA)** module
+    - `ALA.py`: the code of our Adaptive Local Aggregation module
     - `data_utils.py`: the code to read the dataset. 
 # Simulation
 
