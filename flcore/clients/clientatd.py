@@ -7,7 +7,7 @@ from torch.utils.data import DataLoader
 from sklearn.preprocessing import label_binarize
 from sklearn import metrics
 
-import flcore.servers.servercp
+import flcore.servers.serveratd
 from utils.data_utils import read_client_data
 from flcore.clients.clientbase import Client
 from loguru import logger

@@ -39,7 +39,7 @@ from flcore.servers.serverprox import FedProx
 from flcore.servers.serverrep import FedRep
 from flcore.servers.serverrod import FedROD
 from flcore.servers.serverscaffold import SCAFFOLD
-from flcore.servers.servercp import Fedatd
+from flcore.servers.serveratd import Fedatd
 from flcore.trainmodel.alexnet import *
 from flcore.trainmodel.bilstm import *
 from flcore.trainmodel.mobilenet_v2 import *
